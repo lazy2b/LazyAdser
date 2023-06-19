@@ -2,7 +2,6 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'maven-publish'
-    id 'com.github.dcendents.android-maven'
 }
 
 group = 'com.lazylibs'
@@ -28,6 +27,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 dependencies {
@@ -35,19 +38,43 @@ dependencies {
     implementation 'com.adjust.sdk:adjust-android:4.33.4'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-core:2.5.1'
-    implementation 'com.github.dcendents:android-maven-gradle-plugin:2.1'
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            // Creates a Maven publication called "release".
-            release(MavenPublication) {
-                from components.release
-                groupId = 'com.lazylibs'
-                artifactId = 'adser'
-                version = '0.0.1'
-            }
+//publishing {
+//    publications {
+//        maven(MavenPublication) {
+//            groupId = 'com.lazylibs'
+//            artifactId = 'adser'
+//            version = '0.0.1'
+//
+////            from components.release
+//        }
+//    }
+//}
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.lazylibs'
+            artifactId = 'adser'
+            version = '0.0.1'
         }
     }
+    repositories {
+        mavenLocal()
+    }
 }
+
+//
+//afterEvaluate {
+//    publishing {
+//        publications {
+//            // Creates a Maven publication called "release".
+//            release(MavenPublication) {
+//                from components.release
+//                groupId = 'com.lazylibs'
+//                artifactId = 'adser'
+//                version = '0.0.1'
+//            }
+//        }
+//    }
+//}
