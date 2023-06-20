@@ -1,12 +1,6 @@
 plugins {
     id 'com.android.library'
-    id 'kotlin-android'
-    id 'maven-publish'
-    id 'signing'
 }
-
-group = 'com.lazylibs'
-version = '0.0.1'
 
 android {
     namespace 'com.lazylibs.adser'
@@ -20,7 +14,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            // zipAlign优化
+            zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -28,17 +24,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
 }
-
-//android.libraryVariants.all { variant ->
-//    def name = variant.buildType.name.capitalize()
-//    def javadocTask = project.tasks.getByName("androidJavadocs${name}")
-//    javadocTask.archiveClassifier = name
-//}
 
 dependencies {
     implementation 'com.android.installreferrer:installreferrer:2.2'
@@ -46,84 +32,3 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-core:2.5.1'
 }
-
-apply from: '../mvn.gradle'
-
-publishing {
-    publications {
-        adser(MavenPublication) {
-            groupId = 'com.lazylibs'
-            artifactId = 'adser'
-            version = '0.0.1-SNAPSHOT'
-            pom {
-                name = 'lazyAdser'
-                packaging 'aar'
-                description = 'A adjust adser library'
-                url = 'https://github.com/lazy2b/LazyAdser'
-                properties = [
-                        myProp: "value",
-                        "prop.with.dots": "anotherValue"
-                ]
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'lazy2b'
-                        name = 'jack.rezie'
-                        email = 'rezielibs@gmail.com'
-                    }
-                }
-                scm {
-                    connection = 'scm:git@github.com:lazy2b/LazyAdser.git'
-                    developerConnection = 'scm:git@github.com:lazy2b/LazyAdser.git'
-                    url = 'https://github.com/lazy2b/LazyAdser'
-                }
-            }
-//            from components.release
-        }
-    }
-    repositories {
-        maven {
-            def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-//            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-        }
-    }
-}
-
-signing {
-    sign publishing.publications.adser
-}
-//publishing {
-//    publications {
-//        maven(MavenPublication) {
-//            groupId = 'com.lazylibs'
-//            artifactId = 'adser'
-//            version = '0.0.1'
-//            from components.java
-//        }
-//    }
-//    repositories {
-//        mavenLocal()
-//    }
-//}
-
-//
-//afterEvaluate {
-//    publishing {
-//        publications {
-//            // Creates a Maven publication called "release".
-//            release(MavenPublication) {
-//                from components.release
-//                groupId = 'com.lazylibs'
-//                artifactId = 'adser'
-//                version = '0.0.1'
-//            }
-//        }
-//    }
-//}
