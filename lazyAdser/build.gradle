@@ -60,14 +60,14 @@ task comps {
 }
 publishing {
     publications {
-        adser(MavenPublication) {
+        maven(MavenPublication) {
             groupId = 'com.lazylibs'
             artifactId = 'adser'
             version = _versionName
             pom {
-                name = 'lazyAdser'
-                packaging 'aar'
-                description = 'A adjust adser library'
+                name = 'lazylibs-adser'
+//                packaging 'aar'
+                description = 'a adjust(.com) target audience identification libs.'
                 url = 'https://github.com/lazy2b/LazyAdser'
                 properties = [
                         myProp          : "value",
