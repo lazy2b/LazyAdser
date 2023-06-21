@@ -3,6 +3,9 @@ plugins {
     id 'maven-publish'
 }
 
+def _versionName = "0.0.7"
+def _versionCode = 7
+
 android {
     namespace 'com.lazylibs.adser'
     compileSdk 33
@@ -13,14 +16,31 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled true
-            // zipAlign优化
-            zipAlignEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
+//    flavorDimensions 'default'
+//    productFlavors {
+//        develop {
+//            dimension 'default'
+//            versionCode _versionCode
+//            versionName _versionName
+//        }
+//        online {
+//            dimension 'default'
+//            versionCode _versionCode
+//            versionName _versionName
+//        }
+//    }
+//    buildTypes {
+//        release {
+//            jniDebuggable false
+//            // 混淆
+//            minifyEnabled true
+//            // zipAlign优化
+//            zipAlignEnabled true
+//            pseudoLocalesEnabled true
+//            debuggable false
+//            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//        }
+//    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -32,4 +52,48 @@ dependencies {
     implementation 'com.adjust.sdk:adjust-android:4.33.4'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-core:2.5.1'
+}
+task comps {
+    afterEvaluate {
+        println("Components: " + components*.name)
+    }
+}
+publishing {
+    publications {
+        adser(MavenPublication) {
+            groupId = 'com.lazylibs'
+            artifactId = 'adser'
+            version = _versionName
+            pom {
+                name = 'lazyAdser'
+                packaging 'aar'
+                description = 'A adjust adser library'
+                url = 'https://github.com/lazy2b/LazyAdser'
+                properties = [
+                        myProp          : "value",
+                        "prop.with.dots": "anotherValue"
+                ]
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'lazy2b'
+                        name = 'jack.rezie'
+                        email = 'rezielibs@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/lazy2b/LazyAdser.git'
+                    developerConnection = 'scm:git:https://github.com/lazy2b/LazyAdser.git'
+                    url = 'https://github.com/lazy2b/LazyAdser'
+                }
+            }
+//                println("aaaa"+ components)
+//                from components.release
+        }
+    }
 }

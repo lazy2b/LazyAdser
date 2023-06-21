@@ -28,6 +28,12 @@ android {
     }
 }
 
+task comps {
+    afterEvaluate {
+        println("Components: " + components*.name)
+    }
+}
+
 dependencies {
     implementation project(":lazyAdser")
     implementation 'com.airbnb.android:lottie:6.0.0'
