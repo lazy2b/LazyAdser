@@ -3,8 +3,8 @@ plugins {
     id 'maven-publish'
 }
 
-def _versionName = "0.0.7"
-def _versionCode = 7
+def _versionName = "0.0.8"
+def _versionCode = 8
 
 android {
     namespace 'com.lazylibs.adser'
