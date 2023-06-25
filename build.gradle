@@ -20,6 +20,7 @@ buildscript {
 }
 
 allprojects {
+    group = 'com.lazylibs'
     repositories {
         maven { url 'https://jitpack.io' }
         maven() {
