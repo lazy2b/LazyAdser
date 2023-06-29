@@ -1,2 +1,3 @@
-include ':lazyAdser'
+include ':adser'
 include ':adsinstaller'
+include ':adsplasher'

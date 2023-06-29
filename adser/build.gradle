@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
-apply from: '../mvn-gradle8.0.gradle'
-//apply from: '../mvn1.gradle'
+apply from: 'https://raw.githubusercontent.com/lazy2b/android-publish/main/mvn-gradle8.0.gradle'
+
 
 android {
     namespace 'com.lazylibs.adser'
