@@ -2,16 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".App"
         android:theme="@style/Theme.Vbase">
         <activity
+            android:name=".PatosActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" />
+        <activity
+            android:name=".Enter"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoAnimation.Enter">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

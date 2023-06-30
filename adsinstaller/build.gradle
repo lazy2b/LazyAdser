@@ -37,9 +37,12 @@ task comps {
 
 dependencies {
     implementation 'com.lazylibs:adser:0.0.1-SNAPSHOT'
+    implementation 'com.lazylibs:weber:0.0.1-20230630.091934-2'
+    implementation project(':adsplasher')
 //    implementation 'com.github.lazy2b:LazyAdser:0.0.7'
     implementation 'com.airbnb.android:lottie:6.0.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'com.adjust.sdk:adjust-android:4.33.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
 }

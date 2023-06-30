@@ -1,5 +1,6 @@
 package com.lazylibs.adsplasher;
 
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,18 +9,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subscribers.DisposableSubscriber;
-
 public class SplashAdvertHolder {
     View root;
     ImageView iv_advert;
     TextView tv_countdown;
-    DisposableSubscriber countDownDisposable;
+    CountDownTimer timer;
     ISplashAdvertHandler iHandler;
 
     public SplashAdvertHolder(View root, ISplashAdvertHandler handler) {
@@ -68,36 +62,23 @@ public class SplashAdvertHolder {
             }
         });
         final int intervalCount = advert.interval;
-        countDownDisposable = Flowable.intervalRange(1, intervalCount, 0, 1, TimeUnit.SECONDS)
-                .observeOn(Schedulers.computation())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .map(aLong -> String.valueOf(intervalCount - aLong))
-                .subscribeWith(new DisposableSubscriber<String>() {
-                    @Override
-                    protected void onStart() {
-                        super.onStart();
-//                        update(intervalCount);
-                    }
 
-                    @Override
-                    public void onNext(String count) {
-                        update(count);
-                    }
+        timer = new CountDownTimer(intervalCount*1000l, 1000l) {
+            int count = intervalCount;
+            @Override
+            public void onTick(long millisUntilFinished) {
+                update(--count);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        showNext();
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        update(0);
-                        showNext();
-                    }
-                });
+            @Override
+            public void onFinish() {
+                update(0);
+                showNext();
+            }
+        };
         tv_countdown.setOnClickListener(v -> {
-            if (countDownDisposable != null && !countDownDisposable.isDisposed()) {
-                countDownDisposable.dispose();
+            if (timer != null) {
+                timer.cancel();
             }
             showNext();
         });

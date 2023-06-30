@@ -29,7 +29,7 @@ public class ViewFlipperMainHolder {
     }
 
     private MainViewState mainViewState = MainViewState.Default;
-
+ 
     public ViewFlipperMainHolder(@NonNull ViewFlipper vFlipper, @NonNull IViewFlipperMainHandler handler) {
         viewFlipper = vFlipper;
         viewFlipper.setInAnimation(AnimationUtils.loadAnimation(viewFlipper.getContext(),

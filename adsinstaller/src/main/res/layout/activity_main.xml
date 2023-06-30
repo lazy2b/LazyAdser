@@ -6,27 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <WebView
-        android:id="@+id/web"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
     <TextView
         android:id="@+id/txtView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="你瞅啥？这里没有好玩的！"
         android:layout_gravity="center"/>
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animationView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:lottie_rawRes="@raw/loading"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"/>
 
 </FrameLayout>
