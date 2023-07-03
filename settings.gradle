@@ -1,3 +1,4 @@
 include ':adser'
 include ':adsinstaller'
-include ':adsplasher'
+//include ':adsplasher'
+include ':adsenter'

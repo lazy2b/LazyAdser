@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -13,11 +14,16 @@ import androidx.lifecycle.MutableLiveData;
 import com.adjust.sdk.Adjust;
 import com.adjust.sdk.AdjustAttribution;
 import com.adjust.sdk.AdjustConfig;
+import com.adjust.sdk.AdjustEvent;
 import com.adjust.sdk.LogLevel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public enum Adser {
@@ -35,21 +41,25 @@ public enum Adser {
         _liveData.postValue(attribution);
     }
 
+    public static void logD(String msg) {
+        Log.d("Lazy.Adser", msg);
+    }
+
     public static void onCreate(Application app, String adsToken) {
         assert app != null;
         boolean debug = (app.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
         AdjustConfig config = new AdjustConfig(app, adsToken, debug ? AdjustConfig.ENVIRONMENT_SANDBOX : AdjustConfig.ENVIRONMENT_PRODUCTION);
         config.setOnEventTrackingSucceededListener(adjustEventSuccess -> {
-            Log.d("Lazy.Adser", "EventTrackingSucceeded:" + adjustEventSuccess.toString());
+            logD("EventTrackingSucceeded:" + adjustEventSuccess.toString());
         });
         config.setOnEventTrackingFailedListener(adjustEventFailure -> {
-            Log.d("Lazy.Adser", "EventTrackingFailed:" + adjustEventFailure.toString());
+            logD("EventTrackingFailed:" + adjustEventFailure.toString());
         });
         config.setOnSessionTrackingSucceededListener(adjustSessionSuccess -> {
-            Log.d("Lazy.Adser", "SessionTrackingSucceeded:" + adjustSessionSuccess.toString());
+            logD("SessionTrackingSucceeded:" + adjustSessionSuccess.toString());
         });
         config.setOnSessionTrackingFailedListener(adjustSessionFailure -> {
-            Log.d("Lazy.Adser", "SessionTrackingFailed:" + adjustSessionFailure.toString());
+            logD("SessionTrackingFailed:" + adjustSessionFailure.toString());
         });
         config.setOnDeeplinkResponseListener(uri -> true);
         config.setOnAttributionChangedListener(Adser.CORE::update);
@@ -137,4 +147,48 @@ public enum Adser {
         }
         return false;
     }
+
+    private static String CURRENCY = "";
+    private static Map<String, String> EVENTS = new HashMap<>();
+
+    public static void setup(String currency) {
+        CURRENCY = currency;
+    }
+
+    public static void setup(Map<String, String> events) {
+        EVENTS = events;
+    }
+
+    public static void trackEvent(String key, String value) {
+        if (TextUtils.isEmpty(key)) return;
+        logD(String.format("Adset.trackEvent('%s','%s');", key, value));
+        if (EVENTS.containsKey(key)) {
+            String eToken = EVENTS.get(key);
+            if (!TextUtils.isEmpty(eToken)) {
+                AdjustEvent adjustEvent = new AdjustEvent(eToken);
+                if (!TextUtils.isEmpty(eToken)) {
+                    adjustEvent.setCallbackId(value);
+                }
+                Adjust.trackEvent(adjustEvent);
+            }
+        }
+    }
+
+    public static void trackRevenue(String key, String value, String... args) {
+        if (TextUtils.isEmpty(key)) return;
+        logD(String.format("Adset.trackEvent('%s','%s');", key, value));
+        if (EVENTS.containsKey(key)) {
+            String eToken = EVENTS.get(key);
+            if (!TextUtils.isEmpty(eToken)) {
+                AdjustEvent adjustEvent = new AdjustEvent(eToken);
+                String _currency = args.length == 0 ? CURRENCY : args[0];
+                try {
+                    adjustEvent.setRevenue(Double.parseDouble(value), _currency);
+                } catch (NumberFormatException ignored) {
+                }
+                Adjust.trackEvent(adjustEvent);
+            }
+        }
+    }
+
 }

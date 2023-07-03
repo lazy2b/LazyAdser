@@ -3,17 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <WebView
-        android:id="@+id/wb_view"
+    <FrameLayout
+        android:id="@+id/wb_patos"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
     <TextView
-        android:layout_gravity="center"
+        android:id="@+id/tv_patos"
         android:layout_width="match_parent"
-        android:gravity="center"
         android:layout_height="match_parent"
-        android:text="我是隐私协议和服务条款" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="我是隐私协议和服务条款"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/tv_agree"
@@ -21,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="20dp"
-        android:text="必须同意" />
+        android:text="@string/agree"
+        android:visibility="gone" />
 
 </FrameLayout>
