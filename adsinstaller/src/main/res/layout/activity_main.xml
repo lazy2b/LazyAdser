@@ -10,7 +10,7 @@
         android:id="@+id/txtView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="你瞅啥？这里没有好玩的！"
+        android:text="not adser? nothing to show! see you!"
         android:layout_gravity="center"/>
 
 </FrameLayout>
