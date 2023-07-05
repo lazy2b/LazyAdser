@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="agree">必须同意</string>
+    <string name="agree_patos">agree</string>
 </resources>
